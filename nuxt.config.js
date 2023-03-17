@@ -35,13 +35,17 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
+
+
+    '@nuxtjs/auth-next',
     '@nuxtjs/axios',
   ],
+
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: 'http://localhost:8000/api/v1/',
   },
 
   auth: {
@@ -49,37 +53,39 @@ export default {
       local: {
         scheme: 'refresh',
         localStorage: {
-          prefix: 'auth'
+          prefix: 'auth.'
         },
         token: {
-          prefix: 'access_token',
+          prefix: 'access_token.',
           property: 'access_token',
           maxAge: 86400,
           type: 'Bearer'
         },
         refreshToken: {
-          prefix: 'refresh_token',
+          prefix: 'refresh_token.',
           property: 'refresh_token',
           data: 'refresh_token',
           maxAge: 60 * 60 * 24 * 15
         },
-        // user:false
         user: {
           property: 'user',
           autoFetch: true
         },
-        endpoints: {
-          login: { url: '/login', method: 'post' },
-          refresh: { url: '/token/refresh/', method: 'post' },
-          user: { url: '/user', method: 'get' },
-          logout: { url: '/logout', method: 'post' }
-        }
       }
-    }
+    },
+    endpoints: {
+      login: { url: '/login', method: 'post' },
+      refresh: { url: '/token/refresh/', method: 'post' },
+      user: { url: '/user', method: 'get' },
+      logout: { url: '/logout', method: 'post' }
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: [
+      'defu'
+    ]
   },
 
   server: {
